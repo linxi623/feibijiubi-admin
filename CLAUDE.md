@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project scope
 
 This repository is the Vue 3 administrator SPA for the 菲比啾比 (feibijiubi) video platform — a fork of
-the teriteri admin UI, now targeting the **feibijiubi Spring Boot backend** (default
+the feibijiubi admin UI, now targeting the **feibijiubi Spring Boot backend** (default
 `http://localhost:8080`). The implemented workflow is video review (list by status → detail → approve /
 reject-with-reason). Content, case, data, and system pages are placeholders.
 
@@ -25,14 +25,14 @@ npm run lint      # ESLint via Vue CLI
 No test runner or test suite exists. This is a JavaScript project (no type-check command).
 
 The dev server proxies `/api/*` to `http://localhost:8080` **without stripping the prefix** — the
-feibijiubi backend's paths themselves start with `/api`. (The original teriteri setup stripped `/api`
+feibijiubi backend's paths themselves start with `/api`. (The original feibijiubi setup stripped `/api`
 and targeted port 7070; do not reintroduce that.)
 
 ## Backend contract (feibijiubi)
 
 - Uniform envelope `{code, message, data}`; business errors usually come back as HTTP 200 with a
   non-200 `code`.
-- Auth: `Authorization: Bearer <token>`, token stored in `localStorage.teri_token`.
+- Auth: `Authorization: Bearer <token>`, token stored in `localStorage.feibijiubi_token`.
 - HTTP method convention: GET for reads, POST for all writes (no PUT/DELETE).
 - Login (`POST /api/auth/login`) returns only `{token}`; user info comes from `GET /api/users/me`,
   after which the frontend enforces `role >= 1` (1 admin, 2 super-admin) before entering the app.
@@ -53,7 +53,7 @@ and targeted port 7070; do not reintroduce that.)
   toasts non-200 codes and clears auth + redirects to `/login` on admin-permission errors.
 - `src/store/index.js`: `isLoading` / `isLogin` / `user` / `channels`; actions `getPersonalInfo`
   (GET /api/users/me + role check), `loadChannels`, `logout` (POST /api/auth/logout).
-- Router guard only checks that `teri_token` exists; real authorization happens via API responses.
+- Router guard only checks that `feibijiubi_token` exists; real authorization happens via API responses.
 - Some legacy code mutates Vuex state directly instead of through mutations — match surrounding
   conventions unless refactoring a whole flow.
 - `VideoDetail.vue` renders the description with `v-html` via `linkify` in `src/utils/utils.js`;

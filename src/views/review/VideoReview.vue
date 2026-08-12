@@ -112,7 +112,7 @@ export default {
                     quantity: this.quantity,
                 },
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("teri_token"),
+                    Authorization: "Bearer " + localStorage.getItem("feibijiubi_token"),
                 },
             });
             if (res && res.data && res.data.data) {

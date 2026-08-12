@@ -96,7 +96,7 @@ export default {
         async getVideoDetail() {
             const res = await this.$get(`/admin/videos/${this.$route.params.vid}`, {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("teri_token"),
+                    Authorization: "Bearer " + localStorage.getItem("feibijiubi_token"),
                 },
             });
             if (res.data.data) {
@@ -135,11 +135,11 @@ export default {
                 reason: reason,
             }, {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("teri_token"),
+                    Authorization: "Bearer " + localStorage.getItem("feibijiubi_token"),
                 }
             }).catch(() => null);
             if (!res || !res.data) {
-                ElMessage.error("特丽丽被玩坏了(¯﹃¯)");
+                ElMessage.error("菲比啾比被玩坏了(¯﹃¯)");
                 this.$store.state.isLoading = false;
                 this.reviewing = false;
                 return;
@@ -156,7 +156,7 @@ export default {
             const res = await this.$get('/admin/videos/page', {
                 params: { page: 1, status: 0, quantity: 1 },
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("teri_token"),
+                    Authorization: "Bearer " + localStorage.getItem("feibijiubi_token"),
                 },
             }).catch(() => null);
             const videos = res && res.data && Array.isArray(res.data.data) ? res.data.data : [];

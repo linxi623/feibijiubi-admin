@@ -192,7 +192,7 @@ export default {
                 this.$store.state.isLoading = false;
             }
             if (result.data.code === 200) {
-                localStorage.setItem("teri_token", result.data.data.token); // 浏览器缓存token
+                localStorage.setItem("feibijiubi_token", result.data.data.token); // 浏览器缓存token
                 // 登录接口不再返回用户对象，需要再调用 /api/users/me 获取用户信息并校验管理员身份
                 const infoRes = await axios.get("/api/users/me", {
                     headers: {
@@ -201,7 +201,7 @@ export default {
                 }).catch(() => null);
                 if (!infoRes || infoRes.data.code !== 200) {
                     ElMessage.error("获取用户信息失败");
-                    localStorage.removeItem("teri_token");
+                    localStorage.removeItem("feibijiubi_token");
                     this.$store.state.isLoading = false;
                     return;
                 }
@@ -209,7 +209,7 @@ export default {
                 // role: 0 普通用户 1 管理员 2 超级管理员
                 if (!user.role || user.role === 0) {
                     ElMessage.error("您不是管理员，无权访问");
-                    localStorage.removeItem("teri_token");
+                    localStorage.removeItem("feibijiubi_token");
                     this.$store.state.isLoading = false;
                     return;
                 }

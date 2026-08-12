@@ -59,7 +59,7 @@
         >
             <div class="aside-top">
                 <a class="logo" href="http://localhost:8787" target="_blank">
-                    <img src="~assets/img/teriteri-pink.png" alt="">
+                    <img src="~assets/img/feibijiubi-pink.png" alt="">
                 </a>
             </div>
             <div class="aside-middle">

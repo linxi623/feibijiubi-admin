@@ -1,6 +1,6 @@
-# teriteri-admin 项目结构与技术介绍
+# feibijiubi-admin 项目结构与技术介绍
 
-> 本项目基于开源项目 teriteri 的管理端二次开发，现已对接**菲比啾比（feibijiubi）后端**
+> 本项目基于开源项目 feibijiubi 的管理端二次开发，现已对接**菲比啾比（feibijiubi）后端**
 > （Spring Boot，`http://localhost:8080`）。本文档描述当前真实状态。
 
 ---
@@ -35,7 +35,7 @@ Node.js 建议 16.x（与 `package-lock.json` 一致），包管理用 npm。
 ## 3. 目录结构
 
 ```text
-teriteri-admin/
+feibijiubi-admin/
 ├── public/                  # 静态资源（index.html、favicon）
 ├── src/
 │   ├── main.js              # 入口：安装 Element Plus / Router / Vuex / 粒子库，
@@ -51,7 +51,7 @@ teriteri-admin/
 │   │   └── request.js       # $get/$post 封装：baseURL=/api、30s 超时、
 │   │                        #   非 200 业务码统一弹错、登录失效跳转 /login
 │   ├── router/
-│   │   └── index.js         # 懒加载路由；全局守卫只检查 localStorage 的 teri_token
+│   │   └── index.js         # 懒加载路由；全局守卫只检查 localStorage 的 feibijiubi_token
 │   ├── store/
 │   │   └── index.js         # Vuex：isLoading / isLogin / user / channels
 │   │                        #   actions: getPersonalInfo、loadChannels、logout
@@ -78,10 +78,10 @@ teriteri-admin/
 ### 4.1 请求链路
 
 - 开发服务器把 `/api/*` **原样**代理到 `http://localhost:8080`（后端接口路径本身以
-  `/api` 开头，**不做路径重写**——这点与原版 teriteri 不同）。
+  `/api` 开头，**不做路径重写**——这点与原版 feibijiubi 不同）。
 - 所有响应为统一的 `ApiResponse<T>`：`{code, message, data}`，业务异常通常也是 HTTP 200，
   以 `code` 为准。
-- 认证方式：`Authorization: Bearer <token>`，token 存 `localStorage.teri_token`。
+- 认证方式：`Authorization: Bearer <token>`，token 存 `localStorage.feibijiubi_token`。
 
 ### 4.2 使用的后端接口
 
@@ -105,10 +105,10 @@ teriteri-admin/
 - 详情返回扁平的 `AdminVideoDetailVO`；分区名称由前端用 `mcId/scId` 从 Vuex 分区列表解析。
 - 分区接口返回 `{mcId, mcName, children:[{scId, scName, description, rcmTags}]}`，
   在 `store.loadChannels` 中适配为旧组件期望的 `{mcId, mcName, scList:[{scId, scName, descr, rcmTag}]}`。
-- 标签为**逗号分隔**字符串（原版 teriteri 是 `\r\n` 分隔）。
+- 标签为**逗号分隔**字符串（原版 feibijiubi 是 `\r\n` 分隔）。
 - 用户头像字段为 `avatarUrl`（原版是 `avatar_url`）。
 
-### 4.4 与原版 teriteri 的差异（重要）
+### 4.4 与原版 feibijiubi 的差异（重要）
 
 | 原版行为 | 现状 |
 |---|---|

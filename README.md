@@ -2,7 +2,7 @@
 
 
 
-## 项目：Teriteri
+## 项目：Feibijiubi
 
 - 使用 java 语言复刻了一个B站，实现了一个弹幕视频网站所具备的大部分功能。
 - 采用前后端分离模式开发，web端分为客户端和后台管理。本项目主要实现客户端各功能，后台管理只写了视频审核。
@@ -16,13 +16,13 @@
   - [我用 SpringBoot + Vue 复刻了一个B站作为毕设项目(bilibili.com)](https://www.bilibili.com/video/BV1pM4m1D7Vt)
 
 - **后端代码：**
-  - [xunlu129/teriteri-backend: 一个基于 springboot + mybatis-plus 搭建的视频网站平台后端 (github.com)](https://github.com/xunlu129/teriteri-backend)
+  - [xunlu129/feibijiubi-backend: 一个基于 springboot + mybatis-plus 搭建的视频网站平台后端 (github.com)](https://github.com/xunlu129/feibijiubi-backend)
 
 - **客户端代码：**
-  - [xunlu129/teriteri-client: 一个基于 vue3 搭建的视频网站平台客户端 (github.com)](https://github.com/xunlu129/teriteri-client)
+  - [xunlu129/feibijiubi-client: 一个基于 vue3 搭建的视频网站平台客户端 (github.com)](https://github.com/xunlu129/feibijiubi-client)
 
 - **管理员端代码：**
-  - [xunlu129/teriteri-admin: 一个基于 vue3 搭建的视频网站平台管理员端 (github.com)](https://github.com/xunlu129/teriteri-admin)
+  - [xunlu129/feibijiubi-admin: 一个基于 vue3 搭建的视频网站平台管理员端 (github.com)](https://github.com/xunlu129/feibijiubi-admin)
 
 ### ==**代码都拿了，顺手帮忙给我视频点个赞，给代码点个star呗，拜托了，这对我真的很重要![0EF500CA](README.assets/0EF500CA.png)**==
 

@@ -36,7 +36,7 @@ export default createStore({
             // 这里为了更方便捕捉到错误后做出反应，就不使用封装的函数了
             const result = await axios.get("/api/users/me", {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("teri_token"),
+                    Authorization: "Bearer " + localStorage.getItem("feibijiubi_token"),
                 },
             })
             .catch(() => {
@@ -46,7 +46,7 @@ export default createStore({
                 // 清空user信息
                 context.state.user = {};
                 // 清除本地token缓存
-                localStorage.removeItem("teri_token");
+                localStorage.removeItem("feibijiubi_token");
                 ElMessage.error("请登录后查看");
                 router.push("/login");
             });
@@ -58,7 +58,7 @@ export default createStore({
                 // 清空user信息
                 context.state.user = {};
                 // 清除本地token缓存
-                localStorage.removeItem("teri_token");
+                localStorage.removeItem("feibijiubi_token");
                 ElMessage.error(result.data.message);
                 router.push("/login");
             }
@@ -68,7 +68,7 @@ export default createStore({
                 if (!user.role || user.role === 0) {
                     context.state.isLogin = false;
                     context.state.user = {};
-                    localStorage.removeItem("teri_token");
+                    localStorage.removeItem("feibijiubi_token");
                     ElMessage.error("您不是管理员，无权访问");
                     router.push("/login");
                     return;
@@ -80,7 +80,7 @@ export default createStore({
         
         // 获取分区列表（菲比啾比后端：GET /api/category，需要登录）
         async loadChannels(context) {
-            const token = localStorage.getItem("teri_token");
+            const token = localStorage.getItem("feibijiubi_token");
             if (!token) return; // 未登录时后端会返回 401，这里直接跳过
             const result = await axios.get("/api/category", {
                 headers: { Authorization: "Bearer " + token },
@@ -113,11 +113,11 @@ export default createStore({
             // 发送退出请求（菲比啾比后端：POST /api/auth/logout，服务端把 jti 写入 Redis 黑名单）
             axios.post("/api/auth/logout", null, {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("teri_token"),
+                    Authorization: "Bearer " + localStorage.getItem("feibijiubi_token"),
                 },
             }).catch(() => {});
             // 清除本地token缓存
-            localStorage.removeItem("teri_token");
+            localStorage.removeItem("feibijiubi_token");
         }
     }
 })

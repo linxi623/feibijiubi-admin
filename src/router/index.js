@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { getToken } from '@/config/app';
 const Index = () => import("@/views/IndexVue.vue");
 const NotFound = () => import("@/views/NotFound.vue");
 const Login = () => import("@/views/LoginVue.vue");
@@ -97,7 +98,7 @@ const router = createRouter({
 
 // 本地没有token就跳到登录界面
 router.beforeEach((to, from, next) => {
-  if (to.meta.requestAuth && !localStorage.getItem("teri_token")) {
+  if (to.meta.requestAuth && !getToken()) {
     next({ name: "login" });
   } else {
     next();
