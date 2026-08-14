@@ -602,7 +602,7 @@ export default {
     --el-menu-item-height: 50px;
 }
 
-.aside-middle /deep/ .el-sub-menu__title, .el-menu-item {
+.aside-middle :deep(.el-sub-menu__title), .el-menu-item {
     height: var(--el-menu-item-height);
     border-radius: 8px;
     margin-bottom: 8px;
@@ -612,7 +612,7 @@ export default {
     background-color: var(--graph_bg_regular) !important;
 }
 
-.aside-middle /deep/ .el-sub-menu__title:hover, .el-menu-item:hover {
+.aside-middle :deep(.el-sub-menu__title:hover), .el-menu-item:hover {
     background-color: var(--graph_bg_thin) !important;
 }
 </style>

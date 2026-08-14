@@ -34,8 +34,10 @@
 }
 
 .notfound-container img {
-    width: 100%;
-    filter: drop-shadow(0 0 12px rgba(255, 102, 153, 0.4));
+    width: 35%;
+    max-width: 500px;
+    align-self: center;
+    margin-bottom: 48px;
 }
 
 .goback {

@@ -24,7 +24,7 @@
                                 <!-- 菲比啾比后端审核接口只支持 APPROVED / REJECTED，暂无“永久删除”能力 -->
                                 <el-button v-if="video.status === 0" type="success" plain class="options-item pass"
                                     :disabled="reviewing" @click="reviewVideo('APPROVED')">
-                                    <el-icon v-if="isMiniWidth"><Select /></el-icon>
+                                    <el-icon v-if="isMiniWidth"><SelectIcon /></el-icon>
                                     <span v-else>通过审核</span>
                                 </el-button>
                                 <el-button v-if="video.status === 0" type="warning" plain class="options-item no-pass"

@@ -4,7 +4,7 @@ import ElementPlus from "element-plus";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/index.css";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
-import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import { CloseBold, Select as SelectIcon } from "@element-plus/icons-vue";
 import http, { get, post } from "./network/request";
 import router from "./router";
 import store from "./store";
@@ -19,11 +19,9 @@ app.config.globalProperties.$message = ElMessage;
 app.config.globalProperties.$axios = http;
 app.config.globalProperties.$get = get;
 app.config.globalProperties.$post = post;
-// 注册全部element图标
 app.use(ElementPlus, { locale: zhCn });
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component);
-}
+app.component("CloseBold", CloseBold);
+app.component("SelectIcon", SelectIcon);
 
 app.use(store);
 app.use(router);
