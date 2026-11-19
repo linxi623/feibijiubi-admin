@@ -9,6 +9,7 @@ const Carousel = () => import("@/views/content/CarouselManage.vue");
 const HotSearch = () => import("@/views/content/HotSearchManage.vue");
 const Ranking = () => import("@/views/content/RankingManage.vue");
 const Tag = () => import("@/views/content/TagManage.vue");
+const ExternalEpisodeSources = () => import("@/views/content/ExternalEpisodeSources.vue");
 const Video = () => import("@/views/review/VideoReview.vue");
 const VideoDetail = () => import("@/views/review/detail/VideoDetail.vue");
 const Article = () => import("@/views/review/ArticleReview.vue");
@@ -39,6 +40,7 @@ const routes = [
           { path: '/content/hot-search', component: HotSearch, meta: { requestAuth: true } },
           { path: '/content/ranking', component: Ranking, meta: { requestAuth: true } },
           { path: '/content/tag', component: Tag, meta: { requestAuth: true } },
+          { path: '/content/external-episode-sources', component: ExternalEpisodeSources, meta: { requestAuth: true } },
         ]
       },
       {

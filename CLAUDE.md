@@ -7,11 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This repository is the Vue 3 administrator SPA for the 菲比啾比 (feibijiubi) video platform — a fork of
 the feibijiubi admin UI, now targeting the **feibijiubi Spring Boot backend** (default
 `http://localhost:8080`). The implemented workflow is video review (list by status → detail → approve /
-reject-with-reason). Content, case, data, and system pages are placeholders.
+reject-with-reason), plus manual external episode import and line management. Other content, case, data, and system pages are placeholders.
 
-See `PROJECT_STRUCTURE.md` for the full directory layout, tech stack, and the endpoint mapping table.
-`api.md` in the repo root is a synced copy of the backend's API reference — the backend repo
-(`D:/feibijiubi/backend/docs/api.md`) is the source of truth; keep both in sync when endpoints change.
+See `docs/PROJECT_STRUCTURE.md` for the directory layout, tech stack, and endpoint mapping.
+`docs/api.md` summarizes the client workflow; `D:/feibijiubi/backend/docs/api.md` is the source of truth for API contracts.
 
 ## Commands
 
@@ -22,7 +21,7 @@ npm run build     # production build
 npm run lint      # ESLint via Vue CLI
 ```
 
-No test runner or test suite exists. This is a JavaScript project (no type-check command).
+Targeted Node and Chromium fixtures are in `tests/`. Run relevant tests/builds in an isolated `Java_video` workspace; do not run the full suite for routine changes. This project has no type-check command.
 
 The dev server proxies `/api/*` to `http://localhost:8080` **without stripping the prefix** — the
 feibijiubi backend's paths themselves start with `/api`. (The original feibijiubi setup stripped `/api`

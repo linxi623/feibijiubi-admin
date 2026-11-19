@@ -6,6 +6,26 @@
 
 ---
 
+## 本地剧集的线路管理与首次导入
+
+入口：**内容管理 → 外部视频线路**。本页同时服务未绑定 `vid` 的本地草稿和已导入剧集：草稿先确认来源线路与统一时长，再首次导入为待审核视频；已导入剧集只做加线/换线。不修改审核状态、不发布、不读取 CMS 封面或播放地址。所有请求使用当前管理员 token，真实权限由后端校验。旧 COS 投稿（`POST /api/videos`）保持原流程，本页不替代也不改写它。
+
+| 步骤 | API |
+|---|---|
+| 创建本地作品、剧集 | `POST /api/admin/local-video-series` body `{title}`；`POST /api/admin/local-video-series/{seriesId}/episodes` body `{displayTitle?}` |
+| 选本地作品、剧集 | `GET /api/admin/local-video-series`、`GET /api/admin/local-video-series/{seriesId}/episodes`（`afterId` 游标）；剧集行的 `vid=null` 为草稿 |
+| 查线路、统一时长与版本 | `GET /api/admin/local-video-episodes/{episodeId}/sources` |
+| 选上游来源/作品/分集 | `GET /api/admin/video-sources`、`GET /api/admin/video-sources/{sourceCode}/catalog`、`GET /api/admin/video-sources/{sourceCode}/detail?workId=` |
+| 抓取并探测 | `POST /api/admin/local-video-episodes/{episodeId}/sources/candidates` |
+| 确认为同一集、同一版本和时间轴 | `POST /api/admin/local-video-episodes/{episodeId}/sources/candidates/{candidateId}/confirm` |
+| 上传封面临时文件 | `POST /api/videos/cover`，管理员选 JPG/PNG 源文件，`multipart/form-data` 字段 `file`，最大 2MB |
+| 选真实父子分类 | `GET /api/category` |
+| 首次导入为待审核视频 | `POST /api/admin/local-video-episodes/{episodeId}/import`，body 仅 `{expectedRevision,tempCoverKey,title,mcId,scId,visibility}` |
+
+线路规则：新增独立线路传 `targetBindingId: null`；替换固定原来源和上游作品。抓取候选不换线，以抓取后的分集标签为准。草稿首次确认允许在探测失败时人工核验并填写/修正有限正时长，但必须勾选同一集、同一版本/时间轴并填写理由；首次确认后统一时长锁定，后续来源必须使用相同时长。已导入剧集仍只允许成功 HLS 证据的候选，确认时长必须等于剧集与原视频的统一时长。冲突或响应不明确时先刷新线路和剧集状态，不自动重发。
+
+首次导入规则：封面 key 只来自本页刚上传的临时文件，页面不显示、不写 `localStorage`、不记录日志，也不读取 CMS cover。标题 trim 后 1..80 字符；`mcId/scId` 取真实二级分类；`visibility` 默认 1（私密），只接受 0/1。导入只提交上述六个字段，不提交 `vid/sourceType/status/duration/videoUrl/videoKey`。成功响应展示 `vid` 与后端实际返回的审核状态（首次导入为待审核 `status=0`），不承诺发布、不自动审核。若创建、确认或导入结果不明确，先重新查询剧集/线路，再决定是否重试；刷新发现 `vid` 已变化时不能继续按草稿操作。BIGINT 本地 id 以 JSON 数字返回，页面只接受安全整数并拒绝超过 2^53 的本地 id；上游 `workId` 始终按字符串保留。来源预览关闭时无法抓取或确认；本页不打开任何后端开关。参见 [后端最新契约](../../../backend/docs/api.md) 的 S1、M3、S2、M5、M6-B 和 6.2。
+
 ## 1. 通用约定
 
 ### 1.1 基础地址

@@ -13,7 +13,7 @@
 - 按审核状态分页浏览视频（待审核 / 已过审 / 未过审）
 - 查看单个视频详情并进行审核（通过 / 驳回，驳回必须填写原因）
 
-内容管理、案件、数据、系统设置等菜单目前都是**占位页面**，尚未实现。
+内容管理下的「外部视频线路」用于创建本地作品/剧集草稿、为剧集新增或替换线路，并在确认统一时长后首次导入为待审核视频。其余内容管理页面及案件、数据、系统设置等仍为占位。
 
 ## 2. 技术栈
 
@@ -56,12 +56,13 @@ feibijiubi-admin/
 │   │   └── index.js         # Vuex：isLoading / isLogin / user / channels
 │   │                        #   actions: getPersonalInfo、loadChannels、logout
 │   ├── utils/
-│   │   └── utils.js         # 工具函数（linkify 超链接化等）
+│   │   ├── utils.js         # 工具函数（linkify 超链接化等）
+│   │   └── externalEpisodeSources.mjs # 线路/首次导入的安全校验与请求体构造
 │   └── views/
 │       ├── LoginVue.vue     # 登录页（粒子背景；登录后校验管理员身份）
 │       ├── IndexVue.vue     # 已登录后台外壳：页头 + 侧边栏 + 嵌套路由出口
 │       ├── homePage/        # 首页（占位）
-│       ├── content/         # 内容管理（占位）
+│       ├── content/         # 外部视频线路与首次导入（ExternalEpisodeSources.vue）及占位页
 │       ├── review/
 │       │   ├── VideoReview.vue        # 视频审核列表（按状态 + 上一页/下一页翻页）
 │       │   └── detail/VideoDetail.vue # 审核详情（播放、通过/驳回）
@@ -69,7 +70,8 @@ feibijiubi-admin/
 │       ├── data/            # 数据中心（占位，ECharts）
 │       └── system/          # 系统设置（占位）
 ├── vue.config.js            # 端口 8788；/api 代理到 http://localhost:8080（不重写路径）
-├── api.md                   # 菲比啾比后端 API 文档（与后端仓库保持同步）
+├── docs/api.md              # 菲比啾比后端 API 文档（与后端仓库保持同步）
+├── tests/                   # Node 定向测试与 Chromium 模拟浏览器测试
 └── package.json
 ```
 
@@ -90,12 +92,17 @@ feibijiubi-admin/
 | 登录 | POST | `/api/auth/login`（data 只返回 `{token}`） |
 | 获取当前用户 | GET | `/api/users/me`（登录后校验 `role >= 1`） |
 | 退出登录 | POST | `/api/auth/logout`（服务端黑名单，旧 token 立即失效） |
-| 分区列表 | GET | `/api/category`（需要登录，登录成功后才加载） |
+| 分区列表 | GET | `/api/category`（需要登录，登录成功后才加载；首次导入用真实父子分类） |
+| 本地作品/剧集 | GET/POST | `/api/admin/local-video-series`、`/api/admin/local-video-series/{seriesId}/episodes` |
+| 外部来源目录 | GET | `/api/admin/video-sources`、`/api/admin/video-sources/{sourceCode}/catalog`、`/api/admin/video-sources/{sourceCode}/detail` |
+| 来源抓取/确认 | POST | `/api/admin/local-video-episodes/{episodeId}/sources/candidates`、`.../candidates/{candidateId}/confirm` |
+| 封面临时上传 | POST | `/api/videos/cover`（JPG/PNG，≤2MB；临时 key 只保存在页面内存） |
+| 首次导入 | POST | `/api/admin/local-video-episodes/{episodeId}/import`（只提交 `expectedRevision,tempCoverKey,title,mcId,scId,visibility`） |
 | 审核分页 | GET | `/api/admin/videos/page?page&status&quantity` |
 | 审核详情 | GET | `/api/admin/videos/{vid}` |
 | 审核操作 | POST | `/api/admin/videos/{vid}/review`，body `{result: "APPROVED"\|"REJECTED", reason}` |
 
-完整接口文档见本仓库根目录 [api.md](api.md)。
+完整接口文档见 [api.md](api.md)。外部视频线路/首次导入页的接口及操作顺序同样记录在 [api.md](api.md)：它复用本地作品/剧集查询、管理员来源目录和 S2/M6-B 来源抓取与确认接口，不读取或提交播放地址；封面只使用本页上传的临时文件，旧 COS 投稿流程不受影响。
 
 ### 4.3 数据形状适配
 

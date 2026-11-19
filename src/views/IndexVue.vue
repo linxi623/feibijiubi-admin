@@ -93,6 +93,10 @@
                             <i class="iconfont icon-biaoqian"></i>
                             <span>标签管理</span>
                         </el-menu-item>
+                        <el-menu-item index="/content/external-episode-sources">
+                            <i class="iconfont icon-shipinshenhe"></i>
+                            <span>外部视频线路</span>
+                        </el-menu-item>
                     </el-sub-menu>
                     <el-sub-menu index="/review">
                         <template #title>
@@ -191,7 +195,7 @@ export default {
             maskingDisplay: "none",
             maskingOpacity: 0,
             active: "", // 侧栏活动项
-            path: ["/home", "/data", "/content/carousel", "/content/hot-search", "/content/ranking", "/review/video",
+            path: ["/home", "/data", "/content/carousel", "/content/hot-search", "/content/ranking", "/content/external-episode-sources", "/review/video",
             "/review/article", "/review/avatar", "/review/dynamic", "/review/comment", "/review/danmu", "/case/report",
             "/case/appeal", "/system/role", "/system/user"],   // 用于判断当前活动页
             defOpenMenu: ["/content", "/review", "/case", "/system"],    // 默认展开的子菜单
